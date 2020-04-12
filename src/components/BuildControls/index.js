@@ -3,6 +3,8 @@ import BuildControl from "../BuildControl";
 import css from "./style.module.css";
 const BuildControls = (props) => (
   <div className={css.BuildControls}>
+    <p>БУРГЕРИЙН ҮНЭ: {props.price}</p>
+
     <BuildControl ortsNemeh={props.ortsNemeh} ortsHasah={props.ortsHasah} disabled={props.disabledIngredients} type="salad" orts="Салад" />
     <BuildControl
       ortsNemeh={props.ortsNemeh}
