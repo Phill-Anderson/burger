@@ -25,10 +25,15 @@ class BurgerBuilder extends Component {
     }
   };
   render() {
+    const disabledIngredients = { ...this.state.ingredients };
+    for (let key in disabledIngredients) {
+      disabledIngredients[key] = disabledIngredients[key] <= 0;
+      console.log(key + "==>" + disabledIngredients[key]);
+    }
     return (
       <div>
         <Burger orts={this.state.ingredients} />
-        <BuildControls ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
+        <BuildControls disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
       </div>
     );
   }
