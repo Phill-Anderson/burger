@@ -17,7 +17,6 @@ class BurgerBuilder extends Component {
     // console.log("==========>" + type);
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
-
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({ totalPrice: newPrice, ingredients: newIngredients });
   };
@@ -25,7 +24,6 @@ class BurgerBuilder extends Component {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
-
       const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
       this.setState({ totalPrice: newPrice, ingredients: newIngredients });
     }
