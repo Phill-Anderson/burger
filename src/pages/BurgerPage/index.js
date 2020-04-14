@@ -2,8 +2,13 @@ import React, { Component } from "react";
 
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
-const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
-class BurgerBuilder extends Component {
+const INGREDIENT_PRICES = {
+  salad: 150,
+  cheese: 250,
+  bacon: 800,
+  meat: 1500
+};
+class BurgerPage extends Component {
   state = {
     ingredients: {
       salad: 0,
@@ -11,6 +16,7 @@ class BurgerBuilder extends Component {
       bacon: 0,
       meat: 0,
     },
+    purchasing: false,
     totalPrice: 1000
   };
   ortsNemeh = (type) => {
@@ -18,14 +24,14 @@ class BurgerBuilder extends Component {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
-    this.setState({ totalPrice: newPrice, ingredients: newIngredients });
+    this.setState({ purchasing: true, totalPrice: newPrice, ingredients: newIngredients });
   };
   ortsHasah = (type) => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
       const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
-      this.setState({ totalPrice: newPrice, ingredients: newIngredients });
+      this.setState({ purchasing: newPrice > 1000, totalPrice: newPrice, ingredients: newIngredients });
     }
   };
   render() {
@@ -37,10 +43,10 @@ class BurgerBuilder extends Component {
     return (
       <div>
         <Burger orts={this.state.ingredients} />
-        <BuildControls price={this.state.totalPrice} disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
+        <BuildControls disabledButton={!this.state.purchasing} price={this.state.totalPrice} disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
       </div>
     );
   }
 }
 
-export default BurgerBuilder;
+export default BurgerPage;

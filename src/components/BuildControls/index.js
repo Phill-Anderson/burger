@@ -11,16 +11,10 @@ const BuildControls = (props) => {
   return (
     <div className={css.BuildControls}>
       <p>БУРГЕРИЙН ҮНЭ: <strong>{props.price}</strong></p>
-
       {Object.keys(controls).map(el => (
-        <BuildControl
-          key={el}
-          ortsNemeh={props.ortsNemeh}
-          ortsHasah={props.ortsHasah}
-          disabled={props.disabledIngredients}
-          type={el}
-          orts={controls[el]} />
+        <BuildControl key={el} ortsNemeh={props.ortsNemeh} ortsHasah={props.ortsHasah} disabled={props.disabledIngredients} type={el} orts={controls[el]} />
       ))}
+      <button disabled={props.disabledButton} className={css.OrderButton}>ЗАХИАЛАХ</button>
     </div>
   )
 }
