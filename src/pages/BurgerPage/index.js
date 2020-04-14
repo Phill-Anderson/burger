@@ -2,11 +2,19 @@ import React, { Component } from "react";
 
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
+import Modal from "../../components/General/Modal";
+import OrderSummary from "../../components/OrderSummary";
 const INGREDIENT_PRICES = {
   salad: 150,
   cheese: 250,
   bacon: 800,
   meat: 1500
+};
+const INGREDIENT_NAMES = {
+  salad: "Салад",
+  cheese: "Бяслаг",
+  bacon: "Гахайн мах",
+  meat: "Үхрийн мах"
 };
 class BurgerPage extends Component {
   state = {
@@ -42,8 +50,11 @@ class BurgerPage extends Component {
     }
     return (
       <div>
+        <Modal>
+          <OrderSummary ingredientNames={INGREDIENT_NAMES} ingredients={this.state.ingredients} />
+        </Modal>
         <Burger orts={this.state.ingredients} />
-        <BuildControls disabledButton={!this.state.purchasing} price={this.state.totalPrice} disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
+        <BuildControls ingredientNames={INGREDIENT_NAMES} disabledButton={!this.state.purchasing} price={this.state.totalPrice} disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
       </div>
     );
   }
