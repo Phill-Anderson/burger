@@ -8,13 +8,13 @@ const INGREDIENT_PRICES = {
   salad: 150,
   cheese: 250,
   bacon: 800,
-  meat: 1500
+  meat: 1500,
 };
 const INGREDIENT_NAMES = {
   salad: "Салад",
   cheese: "Бяслаг",
   bacon: "Гахайн мах",
-  meat: "Үхрийн мах"
+  meat: "Үхрийн мах",
 };
 class BurgerPage extends Component {
   state = {
@@ -24,22 +24,38 @@ class BurgerPage extends Component {
       bacon: 0,
       meat: 0,
     },
+    totalPrice: 1000,
     purchasing: false,
-    totalPrice: 1000
+    confirmOrder: false,
+  };
+  showConfirmModal = () => {
+    this.setState({ confirmOrder: true });
+  };
+
+  closeConfirmModal = () => {
+    this.setState({ confirmOrder: false });
   };
   ortsNemeh = (type) => {
     // console.log("==========>" + type);
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
-    this.setState({ purchasing: true, totalPrice: newPrice, ingredients: newIngredients });
+    this.setState({
+      purchasing: true,
+      totalPrice: newPrice,
+      ingredients: newIngredients,
+    });
   };
   ortsHasah = (type) => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
       const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
-      this.setState({ purchasing: newPrice > 1000, totalPrice: newPrice, ingredients: newIngredients });
+      this.setState({
+        purchasing: newPrice > 1000,
+        totalPrice: newPrice,
+        ingredients: newIngredients,
+      });
     }
   };
   render() {
@@ -50,11 +66,28 @@ class BurgerPage extends Component {
     }
     return (
       <div>
-        <Modal>
-          <OrderSummary ingredientNames={INGREDIENT_NAMES} ingredients={this.state.ingredients} />
+        <Modal
+          closeConfirmModal={this.closeConfirmModal}
+          show={this.state.confirmOrder}
+        >
+          <OrderSummary
+            price={this.state.totalPrice}
+            show={this.state.confirmOrder}
+            ingredientNames={INGREDIENT_NAMES}
+            ingredients={this.state.ingredients}
+          />
         </Modal>
         <Burger orts={this.state.ingredients} />
-        <BuildControls ingredientNames={INGREDIENT_NAMES} disabledButton={!this.state.purchasing} price={this.state.totalPrice} disabledIngredients={disabledIngredients} ortsNemeh={this.ortsNemeh} ortsHasah={this.ortsHasah} />
+        <BuildControls
+          showConfirmModal={this.showConfirmModal}
+          closeConfirmModal={this.closeConfirmModal}
+          ingredientNames={INGREDIENT_NAMES}
+          disabledButton={!this.state.purchasing}
+          price={this.state.totalPrice}
+          disabledIngredients={disabledIngredients}
+          ortsNemeh={this.ortsNemeh}
+          ortsHasah={this.ortsHasah}
+        />
       </div>
     );
   }
