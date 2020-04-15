@@ -1,0 +1,9 @@
+.Logo {
+  background-color: red;
+  padding: 8px;
+  height: 100%;
+  box-sizing: border-box; /* өндөр дээр padding нэмэгдэж тооцогдож байгааг шийднэ. */
+}
+.Logo img {
+  height: 100%;
+}
