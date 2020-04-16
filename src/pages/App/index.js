@@ -21,10 +21,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Toolbar
-          showSideBar={this.state.showSideBar}
-          toggleSideBar={this.toggleSideBar}
-        />
+        <Toolbar toggleSideBar={this.toggleSideBar} />
         <SideBar
           showSideBar={this.state.showSideBar}
           toggleSideBar={this.toggleSideBar}
