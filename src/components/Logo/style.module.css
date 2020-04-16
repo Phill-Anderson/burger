@@ -1,9 +1,11 @@
 .Logo {
-  background-color: red;
+  background-color: white;
   padding: 8px;
-  height: 100%;
-  box-sizing: border-box; /* өндөр дээр padding нэмэгдэж тооцогдож байгааг шийднэ. */
+  height: 80%;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
+
 .Logo img {
   height: 100%;
 }
