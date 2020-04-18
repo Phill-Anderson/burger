@@ -7,25 +7,25 @@ import SideBar from "../../components/SideBar";
 
 class App extends Component {
   state = {
-    showSideBar: false,
+    showSidebar: false
   };
 
-  // өмнөх утгаас нь хамааруулж state -ийг өөрчлөх тохиолдолд setState - ийн өөр хувилбарыг ашигладаг
-  // энэ нь доорх хэлбэрээр бичигдэнэ. setState - ийг дуудахын өмнө нь state ямар байсан бэ гэдгийг react бидэнд prevState хувьсагчаар өгдөг
-  // state - ийг буцаахдаа дандаа шинэ обьект буцаах байдлаар бичиж өгөх ёстойг санаарай
   toggleSideBar = () => {
-    this.setState((prevState) => {
-      return { showSideBar: !prevState.showSideBar };
+    this.setState(prevState => {
+      return { showSidebar: !prevState.showSidebar };
     });
   };
+
   render() {
     return (
       <div>
         <Toolbar toggleSideBar={this.toggleSideBar} />
+
         <SideBar
-          showSideBar={this.state.showSideBar}
+          showSidebar={this.state.showSidebar}
           toggleSideBar={this.toggleSideBar}
         />
+
         <main className={css.Content}>
           <BurgerPage />
         </main>

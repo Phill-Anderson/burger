@@ -2,7 +2,7 @@ import React from "react";
 
 import css from "./style.module.css";
 
-const BurgerIngredient = (props) => {
+const BurgerIngredient = props => {
   if (props.type === "bread-top")
     return (
       <div className={css.BreadTop}>

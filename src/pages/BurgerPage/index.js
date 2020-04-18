@@ -4,33 +4,45 @@ import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
-const INGREDIENT_PRICES = {
-  salad: 150,
-  cheese: 250,
-  bacon: 800,
-  meat: 1500,
-};
+import axios from "../../axios-orders";
+
+const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
 const INGREDIENT_NAMES = {
-  salad: "Салад",
-  cheese: "Бяслаг",
   bacon: "Гахайн мах",
+  cheese: "Бяслаг",
   meat: "Үхрийн мах",
+  salad: "Салад"
 };
-class BurgerPage extends Component {
+
+class BurgerBuilder extends Component {
   state = {
     ingredients: {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat: 0,
+      meat: 0
     },
     totalPrice: 1000,
     purchasing: false,
-    confirmOrder: false,
+    confirmOrder: false
   };
+
   continueOrder = () => {
-    console.log("continueOrder дарагдлаа");
+    const order = {
+      orts: this.state.ingredients,
+      dun: this.state.totalPrice,
+      hayag: {
+        name: "Saraa",
+        city: "Ub",
+        street: "10r horoolol 23-12"
+      }
+    };
+
+    axios.post("/orders.json", order).then(response => {
+      alert("Amjilttai hadgallaa");
+    });
   };
+
   showConfirmModal = () => {
     this.setState({ confirmOrder: true });
   };
@@ -38,18 +50,19 @@ class BurgerPage extends Component {
   closeConfirmModal = () => {
     this.setState({ confirmOrder: false });
   };
-  ortsNemeh = (type) => {
-    // console.log("==========>" + type);
+
+  ortsNemeh = type => {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({
       purchasing: true,
       totalPrice: newPrice,
-      ingredients: newIngredients,
+      ingredients: newIngredients
     });
   };
-  ortsHasah = (type) => {
+
+  ortsHasah = type => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
@@ -57,16 +70,18 @@ class BurgerPage extends Component {
       this.setState({
         purchasing: newPrice > 1000,
         totalPrice: newPrice,
-        ingredients: newIngredients,
+        ingredients: newIngredients
       });
     }
   };
+
   render() {
     const disabledIngredients = { ...this.state.ingredients };
+
     for (let key in disabledIngredients) {
       disabledIngredients[key] = disabledIngredients[key] <= 0;
-      console.log(key + "==>" + disabledIngredients[key]);
     }
+
     return (
       <div>
         <Modal
@@ -77,25 +92,23 @@ class BurgerPage extends Component {
             onCancel={this.closeConfirmModal}
             onContinue={this.continueOrder}
             price={this.state.totalPrice}
-            show={this.state.confirmOrder}
-            ingredientNames={INGREDIENT_NAMES}
+            ingredientsNames={INGREDIENT_NAMES}
             ingredients={this.state.ingredients}
           />
         </Modal>
         <Burger orts={this.state.ingredients} />
         <BuildControls
           showConfirmModal={this.showConfirmModal}
-          closeConfirmModal={this.closeConfirmModal}
-          ingredientNames={INGREDIENT_NAMES}
-          disabledButton={!this.state.purchasing}
+          ingredientsNames={INGREDIENT_NAMES}
+          disabled={!this.state.purchasing}
           price={this.state.totalPrice}
           disabledIngredients={disabledIngredients}
-          ortsNemeh={this.ortsNemeh}
           ortsHasah={this.ortsHasah}
+          ortsNemeh={this.ortsNemeh}
         />
       </div>
     );
   }
 }
 
-export default BurgerPage;
+export default BurgerBuilder;

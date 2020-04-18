@@ -7,6 +7,7 @@
   height: 100%;
   align-items: center;
 }
+
 @media (min-width: 500px) {
   .Menu {
     flex-flow: row;
