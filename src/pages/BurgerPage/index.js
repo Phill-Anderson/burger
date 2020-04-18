@@ -5,13 +5,14 @@ import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
 import axios from "../../axios-orders";
+import Spinner from "../../components/Spinner";
 
 const INGREDIENT_PRICES = { salad: 150, cheese: 250, bacon: 800, meat: 1500 };
 const INGREDIENT_NAMES = {
   bacon: "Гахайн мах",
   cheese: "Бяслаг",
   meat: "Үхрийн мах",
-  salad: "Салад"
+  salad: "Салад",
 };
 
 class BurgerBuilder extends Component {
@@ -20,11 +21,40 @@ class BurgerBuilder extends Component {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat: 0
+      meat: 0,
     },
     totalPrice: 1000,
     purchasing: false,
-    confirmOrder: false
+    confirmOrder: false,
+    lastCustomerName: "N/A",
+    loading: false,
+  };
+
+  componentDidMount = () => {
+    this.setState({ loading: true });
+    axios
+      .get("/orders.json")
+      .then((response) => {
+        let arr = Object.entries(response.data);
+        arr = arr.reverse();
+        arr.forEach((el) => {
+          console.log(el[1].hayag.name + " ==> " + el[1].dun);
+        });
+        const lastOrder = arr[arr.length - 1][1];
+        // console.log(lastOrder);
+
+        this.setState({
+          lastCustomerName: lastOrder.hayag.name,
+          ingredients: lastOrder.orts,
+          totalPrice: lastOrder.dun,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+      });
   };
 
   continueOrder = () => {
@@ -32,15 +62,19 @@ class BurgerBuilder extends Component {
       orts: this.state.ingredients,
       dun: this.state.totalPrice,
       hayag: {
-        name: "Saraa",
+        name: "Амараа",
         city: "Ub",
-        street: "10r horoolol 23-12"
-      }
+        street: "10r horoolol 23-12",
+      },
     };
 
-    axios.post("/orders.json", order).then(response => {
-      alert("Amjilttai hadgallaa");
-    });
+    this.setState({ loading: true });
+    axios
+      .post("/orders.json", order)
+      .then((response) => {})
+      .finally(() => {
+        this.setState({ loading: false });
+      });
   };
 
   showConfirmModal = () => {
@@ -51,18 +85,18 @@ class BurgerBuilder extends Component {
     this.setState({ confirmOrder: false });
   };
 
-  ortsNemeh = type => {
+  ortsNemeh = (type) => {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({
       purchasing: true,
       totalPrice: newPrice,
-      ingredients: newIngredients
+      ingredients: newIngredients,
     });
   };
 
-  ortsHasah = type => {
+  ortsHasah = (type) => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
@@ -70,7 +104,7 @@ class BurgerBuilder extends Component {
       this.setState({
         purchasing: newPrice > 1000,
         totalPrice: newPrice,
-        ingredients: newIngredients
+        ingredients: newIngredients,
       });
     }
   };
@@ -88,14 +122,22 @@ class BurgerBuilder extends Component {
           closeConfirmModal={this.closeConfirmModal}
           show={this.state.confirmOrder}
         >
-          <OrderSummary
-            onCancel={this.closeConfirmModal}
-            onContinue={this.continueOrder}
-            price={this.state.totalPrice}
-            ingredientsNames={INGREDIENT_NAMES}
-            ingredients={this.state.ingredients}
-          />
+          {this.state.loading ? (
+            <Spinner />
+          ) : (
+            <OrderSummary
+              onCancel={this.closeConfirmModal}
+              onContinue={this.continueOrder}
+              price={this.state.totalPrice}
+              ingredientsNames={INGREDIENT_NAMES}
+              ingredients={this.state.ingredients}
+            />
+          )}
         </Modal>
+        {this.state.loading && <Spinner />}
+        <p style={{ width: "100%", textAlign: "center", fontSize: "28px" }}>
+          Сүүлчийн захиалагч : {this.state.lastCustomerName}
+        </p>
         <Burger orts={this.state.ingredients} />
         <BuildControls
           showConfirmModal={this.showConfirmModal}
