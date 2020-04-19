@@ -6,6 +6,7 @@ import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/SideBar";
 import OrderPage from "../OrderPage";
 import { Route, Switch } from "react-router-dom";
+import { ShippingPage } from "../ShippingPage";
 
 class App extends Component {
   state = {
@@ -31,6 +32,7 @@ class App extends Component {
         <main className={css.Content}>
           <Switch>
             <Route path="/orders" component={OrderPage} />
+            <Route path="/ship" component={ShippingPage} />
             <Route path="/" component={BurgerPage} />
           </Switch>
         </main>

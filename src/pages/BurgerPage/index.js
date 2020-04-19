@@ -31,23 +31,39 @@ class BurgerBuilder extends Component {
   componentDidMount = () => {};
 
   continueOrder = () => {
-    const order = {
-      orts: this.state.ingredients,
-      dun: this.state.totalPrice,
-      hayag: {
-        name: "Амараа",
-        city: "Ub",
-        street: "10r horoolol 23-12"
-      }
-    };
+    // const order = {
+    //   orts: this.state.ingredients,
+    //   dun: this.state.totalPrice,
+    //   hayag: {
+    //     name: "Амараа",
+    //     city: "Ub",
+    //     street: "10r horoolol 23-12"
+    //   }
+    // };
 
-    this.setState({ loading: true });
-    axios
-      .post("/orders.json", order)
-      .then(response => {})
-      .finally(() => {
-        this.setState({ loading: false });
-      });
+    // this.setState({ loading: true });
+    // axios
+    //   .post("/orders.json", order)
+    //   .then(response => {})
+    //   .finally(() => {
+    //     this.setState({ loading: false });
+    //   });
+
+    const params = [];
+
+    for (let orts in this.state.ingredients) {
+      params.push(orts + "=" + this.state.ingredients[orts]);
+    }
+
+    const query = params.join("&");
+    console.log(query);
+
+    this.props.history.push({
+      pathname: "/ship",
+      search: query
+    });
+
+    this.closeConfirmModal();
   };
 
   showConfirmModal = () => {
@@ -83,6 +99,7 @@ class BurgerBuilder extends Component {
   };
 
   render() {
+    console.log(this.props);
     const disabledIngredients = { ...this.state.ingredients };
 
     for (let key in disabledIngredients) {
