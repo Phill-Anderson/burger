@@ -7,12 +7,8 @@ import ContactData from "../../components/ContactData";
 
 export class ShippingPage extends React.Component {
   state = {
-    ingredients: {
-      salad: 0,
-      cheese: 0,
-      bacon: 1,
-      meat: 1,
-    },
+    ingredients: {},
+    price: 0,
   };
 
   componentDidMount() {
@@ -20,18 +16,20 @@ export class ShippingPage extends React.Component {
 
     const ingredients = {};
 
+    let price = 0;
     for (let param of query.entries()) {
-      ingredients[param[0]] = param[1];
+      if (param[0] !== "dun") ingredients[param[0]] = param[1];
+      else price = param[1];
     }
 
-    this.setState({ ingredients });
+    this.setState({ ingredients, price });
   }
 
-  goBack = () => {
+  cancelOrder = () => {
     this.props.history.goBack();
   };
   showContactData = () => {
-    this.props.history.push("/ship/contact");
+    this.props.history.replace("/ship/contact");
   };
   render() {
     return (
@@ -39,9 +37,12 @@ export class ShippingPage extends React.Component {
         <p style={{ fontSize: "24px" }}>
           <strong>Таны захиалга амттай байх болно гэж найдаж байна...</strong>
         </p>
+        <p style={{ fontSize: "24px" }}>
+          <strong>Дүн: {this.state.price}</strong>
+        </p>
         <Burger orts={this.state.ingredients} />
         <Button
-          daragdsan={this.goBack}
+          daragdsan={this.cancelOrder}
           btnType="Danger"
           text="ЗАХИАЛГЫГ ЦУЦЛАХ"
         />
@@ -50,7 +51,23 @@ export class ShippingPage extends React.Component {
           btnType="Success"
           text="ХҮРГЭЛТИЙН МЭДЭЭЛЭЛ ОРУУЛАХ"
         />
-        <Route path="/ship/contact" component={ContactData} />
+
+        <Route path="/ship/contact">
+          <ContactData
+            ingredients={this.state.ingredients}
+            price={this.state.price}
+          />
+        </Route>
+
+        {/* <Route
+          path="/ship/contact"
+          render={() => (
+            <ContactData
+              ingredients={this.state.ingredients}
+              price={this.state.price}
+            />
+          )}
+        /> */}
       </div>
     );
   }

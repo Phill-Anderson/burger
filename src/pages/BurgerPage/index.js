@@ -12,7 +12,7 @@ const INGREDIENT_NAMES = {
   bacon: "Гахайн мах",
   cheese: "Бяслаг",
   meat: "Үхрийн мах",
-  salad: "Салад"
+  salad: "Салад",
 };
 
 class BurgerBuilder extends Component {
@@ -21,46 +21,28 @@ class BurgerBuilder extends Component {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat: 0
+      meat: 0,
     },
     totalPrice: 1000,
     purchasing: false,
-    confirmOrder: false
+    confirmOrder: false,
   };
 
   componentDidMount = () => {};
 
   continueOrder = () => {
-    // const order = {
-    //   orts: this.state.ingredients,
-    //   dun: this.state.totalPrice,
-    //   hayag: {
-    //     name: "Амараа",
-    //     city: "Ub",
-    //     street: "10r horoolol 23-12"
-    //   }
-    // };
-
-    // this.setState({ loading: true });
-    // axios
-    //   .post("/orders.json", order)
-    //   .then(response => {})
-    //   .finally(() => {
-    //     this.setState({ loading: false });
-    //   });
-
     const params = [];
 
     for (let orts in this.state.ingredients) {
       params.push(orts + "=" + this.state.ingredients[orts]);
     }
-
+    params.push("dun=" + this.state.totalPrice);
     const query = params.join("&");
     console.log(query);
 
     this.props.history.push({
       pathname: "/ship",
-      search: query
+      search: query,
     });
 
     this.closeConfirmModal();
@@ -74,18 +56,18 @@ class BurgerBuilder extends Component {
     this.setState({ confirmOrder: false });
   };
 
-  ortsNemeh = type => {
+  ortsNemeh = (type) => {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({
       purchasing: true,
       totalPrice: newPrice,
-      ingredients: newIngredients
+      ingredients: newIngredients,
     });
   };
 
-  ortsHasah = type => {
+  ortsHasah = (type) => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
@@ -93,7 +75,7 @@ class BurgerBuilder extends Component {
       this.setState({
         purchasing: newPrice > 1000,
         totalPrice: newPrice,
-        ingredients: newIngredients
+        ingredients: newIngredients,
       });
     }
   };
