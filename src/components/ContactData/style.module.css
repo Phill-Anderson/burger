@@ -1,8 +1,8 @@
 .ContactData {
-  width: 80%;
+  width: 100%;
   border: 1px solid #eee;
   box-sizing: border-box;
-  box-shadow: 0 2px 3px #cccc;
+  box-shadow: 0 2px 3px #ccc;
   padding: 10px;
   text-align: center;
 }

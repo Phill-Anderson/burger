@@ -12,20 +12,20 @@ const INGREDIENT_NAMES = {
   bacon: "Гахайн мах",
   cheese: "Бяслаг",
   meat: "Үхрийн мах",
-  salad: "Салад",
+  salad: "Салад"
 };
 
-class BurgerBuilder extends Component {
+class BurgerPage extends Component {
   state = {
     ingredients: {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat: 0,
+      meat: 0
     },
     totalPrice: 1000,
     purchasing: false,
-    confirmOrder: false,
+    confirmOrder: false
   };
 
   componentDidMount = () => {};
@@ -36,13 +36,12 @@ class BurgerBuilder extends Component {
     for (let orts in this.state.ingredients) {
       params.push(orts + "=" + this.state.ingredients[orts]);
     }
+
     params.push("dun=" + this.state.totalPrice);
-    const query = params.join("&");
-    console.log(query);
 
     this.props.history.push({
       pathname: "/ship",
-      search: query,
+      search: params.join("&")
     });
 
     this.closeConfirmModal();
@@ -56,18 +55,18 @@ class BurgerBuilder extends Component {
     this.setState({ confirmOrder: false });
   };
 
-  ortsNemeh = (type) => {
+  ortsNemeh = type => {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({
       purchasing: true,
       totalPrice: newPrice,
-      ingredients: newIngredients,
+      ingredients: newIngredients
     });
   };
 
-  ortsHasah = (type) => {
+  ortsHasah = type => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
@@ -75,7 +74,7 @@ class BurgerBuilder extends Component {
       this.setState({
         purchasing: newPrice > 1000,
         totalPrice: newPrice,
-        ingredients: newIngredients,
+        ingredients: newIngredients
       });
     }
   };
@@ -107,7 +106,7 @@ class BurgerBuilder extends Component {
           )}
         </Modal>
 
-        <Burger orts={this.state.ingredients} />
+        <Burger choose={this.props.choose} orts={this.state.ingredients} />
         <BuildControls
           showConfirmModal={this.showConfirmModal}
           ingredientsNames={INGREDIENT_NAMES}
@@ -122,4 +121,4 @@ class BurgerBuilder extends Component {
   }
 }
 
-export default BurgerBuilder;
+export default BurgerPage;

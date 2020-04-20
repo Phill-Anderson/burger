@@ -1,14 +1,14 @@
 import React from "react";
-import { Route } from "react-router-dom";
 import Burger from "../../components/Burger";
 import Button from "../../components/General/Button";
+import { Route } from "react-router-dom";
 import css from "./style.module.css";
 import ContactData from "../../components/ContactData";
 
 export class ShippingPage extends React.Component {
   state = {
     ingredients: {},
-    price: 0,
+    price: 0
   };
 
   componentDidMount() {
@@ -17,6 +17,7 @@ export class ShippingPage extends React.Component {
     const ingredients = {};
 
     let price = 0;
+
     for (let param of query.entries()) {
       if (param[0] !== "dun") ingredients[param[0]] = param[1];
       else price = param[1];
@@ -28,9 +29,11 @@ export class ShippingPage extends React.Component {
   cancelOrder = () => {
     this.props.history.goBack();
   };
+
   showContactData = () => {
     this.props.history.replace("/ship/contact");
   };
+
   render() {
     return (
       <div className={css.ShippingPage}>
@@ -38,14 +41,17 @@ export class ShippingPage extends React.Component {
           <strong>Таны захиалга амттай байх болно гэж найдаж байна...</strong>
         </p>
         <p style={{ fontSize: "24px" }}>
-          <strong>Дүн: {this.state.price}</strong>
+          <strong>Дүн : {this.state.price}₮</strong>
         </p>
+
         <Burger orts={this.state.ingredients} />
+
         <Button
           daragdsan={this.cancelOrder}
           btnType="Danger"
           text="ЗАХИАЛГЫГ ЦУЦЛАХ"
         />
+
         <Button
           daragdsan={this.showContactData}
           btnType="Success"
@@ -58,16 +64,6 @@ export class ShippingPage extends React.Component {
             price={this.state.price}
           />
         </Route>
-
-        {/* <Route
-          path="/ship/contact"
-          render={() => (
-            <ContactData
-              ingredients={this.state.ingredients}
-              price={this.state.price}
-            />
-          )}
-        /> */}
       </div>
     );
   }

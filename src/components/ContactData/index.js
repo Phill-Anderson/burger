@@ -1,25 +1,31 @@
 import React from "react";
+
 import css from "./style.module.css";
 import Button from "../General/Button";
-import axios from "../../axios-orders";
 import Spinner from "../General/Spinner";
+import axios from "../../axios-orders";
 import { withRouter } from "react-router-dom";
+
 class ContactData extends React.Component {
   state = {
     name: null,
     city: null,
     street: null,
-    loading: false,
+    loading: false
   };
-  changeName = (e) => {
+
+  changeName = e => {
     this.setState({ name: e.target.value });
   };
-  changeStreet = (e) => {
+
+  changeStreet = e => {
     this.setState({ street: e.target.value });
   };
-  changeCity = (e) => {
+
+  changeCity = e => {
     this.setState({ city: e.target.value });
   };
+
   saveOrder = () => {
     const order = {
       orts: this.props.ingredients,
@@ -27,33 +33,34 @@ class ContactData extends React.Component {
       hayag: {
         name: this.state.name,
         city: this.state.city,
-        street: this.state.street,
-      },
+        street: this.state.street
+      }
     };
 
     this.setState({ loading: true });
     axios
       .post("/orders.json", order)
-      .then((response) => {
-        console.log("амжилттай хадгаллаа");
+      .then(response => {
+        console.log("order amjilttai");
       })
-      .catch((e) => {
-        console.log("алдаа: " + e);
+      .catch(error => {
+        console.log("order amjltgui: " + error);
       })
       .finally(() => {
         this.setState({ loading: false });
         this.props.history.replace("/orders");
       });
   };
+
   render() {
+    console.log(this.props);
     return (
       <div className={css.ContactData}>
-        {this.props.price}
+        Une: {this.props.price}
         {this.state.loading ? (
           <Spinner />
         ) : (
           <div>
-            {" "}
             <input
               onChange={this.changeName}
               type="text"
@@ -83,4 +90,5 @@ class ContactData extends React.Component {
     );
   }
 }
+
 export default withRouter(ContactData);
