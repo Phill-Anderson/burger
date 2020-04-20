@@ -1,6 +1,9 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import Burger from "../../components/Burger";
 import Button from "../../components/General/Button";
+import css from "./style.module.css";
+import ContactData from "../../components/ContactData";
 
 export class ShippingPage extends React.Component {
   state = {
@@ -8,8 +11,8 @@ export class ShippingPage extends React.Component {
       salad: 0,
       cheese: 0,
       bacon: 1,
-      meat: 1
-    }
+      meat: 1,
+    },
   };
 
   componentDidMount() {
@@ -27,16 +30,27 @@ export class ShippingPage extends React.Component {
   goBack = () => {
     this.props.history.goBack();
   };
-
+  showContactData = () => {
+    this.props.history.push("/ship/contact");
+  };
   render() {
     return (
-      <div>
+      <div className={css.ShippingPage}>
+        <p style={{ fontSize: "24px" }}>
+          <strong>Таны захиалга амттай байх болно гэж найдаж байна...</strong>
+        </p>
         <Burger orts={this.state.ingredients} />
         <Button
           daragdsan={this.goBack}
           btnType="Danger"
-          text="Захиалгыг цуцлах"
+          text="ЗАХИАЛГЫГ ЦУЦЛАХ"
         />
+        <Button
+          daragdsan={this.showContactData}
+          btnType="Success"
+          text="ХҮРГЭЛТИЙН МЭДЭЭЛЭЛ ОРУУЛАХ"
+        />
+        <Route path="/ship/contact" component={ContactData} />
       </div>
     );
   }
