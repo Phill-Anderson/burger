@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
@@ -12,7 +12,7 @@ const INGREDIENT_NAMES = {
   bacon: "Гахайн мах",
   cheese: "Бяслаг",
   meat: "Үхрийн мах",
-  salad: "Салад"
+  salad: "Салад",
 };
 
 class BurgerPage extends Component {
@@ -21,11 +21,11 @@ class BurgerPage extends Component {
       salad: 0,
       cheese: 0,
       bacon: 0,
-      meat: 0
+      meat: 0,
     },
     totalPrice: 1000,
     purchasing: false,
-    confirmOrder: false
+    confirmOrder: false,
   };
 
   componentDidMount = () => {};
@@ -41,7 +41,7 @@ class BurgerPage extends Component {
 
     this.props.history.push({
       pathname: "/ship",
-      search: params.join("&")
+      search: params.join("&"),
     });
 
     this.closeConfirmModal();
@@ -55,18 +55,18 @@ class BurgerPage extends Component {
     this.setState({ confirmOrder: false });
   };
 
-  ortsNemeh = type => {
+  ortsNemeh = (type) => {
     const newIngredients = { ...this.state.ingredients };
     newIngredients[type]++;
     const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
     this.setState({
       purchasing: true,
       totalPrice: newPrice,
-      ingredients: newIngredients
+      ingredients: newIngredients,
     });
   };
 
-  ortsHasah = type => {
+  ortsHasah = (type) => {
     if (this.state.ingredients[type] > 0) {
       const newIngredients = { ...this.state.ingredients };
       newIngredients[type]--;
@@ -74,7 +74,7 @@ class BurgerPage extends Component {
       this.setState({
         purchasing: newPrice > 1000,
         totalPrice: newPrice,
-        ingredients: newIngredients
+        ingredients: newIngredients,
       });
     }
   };
@@ -86,6 +86,8 @@ class BurgerPage extends Component {
     for (let key in disabledIngredients) {
       disabledIngredients[key] = disabledIngredients[key] <= 0;
     }
+
+    console.log("hey", this.props);
 
     return (
       <div>
@@ -121,4 +123,20 @@ class BurgerPage extends Component {
   }
 }
 
-export default BurgerPage;
+//redux - аар дамжуулагдсан глобал state орж ирэнгүүт
+const a = (state) => {
+  return {
+    burgeriinOrts: state.ingredients,
+    niitUne: state.totalPrice,
+  };
+};
+//redux - аар дамжуулагдсан action орж ирэнгүүт
+const b = (dispatch) => {
+  return {
+    // action - уудыг props - оор нь дамжуулахын тулд dispatch ашиглах бөгөөд тэр нь заавалчгүй type проперти - ийг зарлаж өгсөн байх ёстой.
+    ortsNem: (ortsNer) => dispatch({ type: "ADD_INGREDIENT" }),
+    ortsHas: (ortsNer) => dispatch({ type: "REMOVE_INGREDIENT" }),
+  };
+};
+
+export default connect(a, b)(BurgerPage);
