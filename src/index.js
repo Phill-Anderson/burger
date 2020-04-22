@@ -5,11 +5,21 @@ import App from "./pages/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import burgerReducer from "./redux/reducer/burgerReducer";
-
-const store = createStore(burgerReducer);
+const loggerMiddleware = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log("MyLoggerMiddleWare: Dispatching:", action);
+      console.log("MyLoggerMiddleWare: State Before", store.getState());
+      const result = next(action);
+      console.log("MyLoggerMiddleWare: State After", store.getState());
+      return result;
+    };
+  };
+};
+const store = createStore(burgerReducer, applyMiddleware(loggerMiddleware));
 
 ReactDOM.render(
   <Provider store={store}>
