@@ -5,7 +5,7 @@ import App from "./pages/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import burgerReducer from "./redux/reducer/burgerReducer";
 const loggerMiddleware = (store) => {
@@ -19,7 +19,11 @@ const loggerMiddleware = (store) => {
     };
   };
 };
-const store = createStore(burgerReducer, applyMiddleware(loggerMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //
+const store = createStore(
+  burgerReducer,
+  composeEnhancers(applyMiddleware(loggerMiddleware))
+);
 
 ReactDOM.render(
   <Provider store={store}>
