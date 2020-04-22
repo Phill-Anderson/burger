@@ -6,16 +6,15 @@ import BurgerPage from "../BurgerPage";
 import SideBar from "../../components/SideBar";
 import OrderPage from "../OrderPage";
 import { Route, Switch } from "react-router-dom";
-import { ShippingPage } from "../ShippingPage";
-import Burger from "../../components/Burger";
+import ShippingPage from "../ShippingPage";
 
 class App extends Component {
   state = {
-    showSidebar: false
+    showSidebar: false,
   };
 
   toggleSideBar = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return { showSidebar: !prevState.showSidebar };
     });
   };
