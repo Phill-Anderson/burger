@@ -52,10 +52,6 @@ export const saveOrder = newOrder => {
       .catch(error => {
         dispatch(saveOrderError(error));
       });
-    // .finally(() => {
-    //   this.setState({ loading: false });
-    //   this.props.history.replace("/orders");
-    // });
   };
 };
 
@@ -71,8 +67,9 @@ export const saveOrderSuccess = () => {
   };
 };
 
-export const saveOrderError = () => {
+export const saveOrderError = error => {
   return {
-    type: "SAVE_ORDER_ERROR"
+    type: "SAVE_ORDER_ERROR",
+    errorMessage: error
   };
 };
