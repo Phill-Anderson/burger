@@ -1,22 +1,26 @@
 const initialState = {
-  orders: [
-    [
-      "-M2s-uzoaANNf0MN_Wve",
-      {
-        dun: 3550,
-        hayag: { city: "UB", name: "Saraa", street: "12" },
-        orts: { bacon: 1, cheese: 1, meat: 1, salad: 0 }
-      }
-    ]
-  ],
-  loading: false
+  orders: [],
+  loading: false,
+  error: null
 };
 
 const reducer = (state = initialState, action) => {
-  if (action.type === "LOAD_ACTIONS") {
+  if (action.type === "LOAD_ORDERS_START") {
     return {
       ...state,
       loading: true
+    };
+  } else if (action.type === "LOAD_ORDERS_SUCCESS") {
+    return {
+      ...state,
+      loading: false,
+      orders: action.orders
+    };
+  } else if (action.type === "LOAD_ORDERS_ERROR") {
+    return {
+      ...state,
+      loading: false,
+      error: action.error
     };
   }
 

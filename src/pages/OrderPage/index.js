@@ -11,14 +11,6 @@ class OrderPage extends React.Component {
     this.props.loadOrders();
     // this.setState({ loading: true });
     // axios
-    //   .get("/orders.json")
-    //   .then(response => {
-    //     this.setState({ orders: Object.entries(response.data).reverse() });
-    //   })
-    //   .catch(err => console.log(err))
-    //   .finally(() => {
-    //     this.setState({ loading: false });
-    //   });
   }
 
   render() {
