@@ -11,18 +11,18 @@ class ContactData extends React.Component {
     name: null,
     city: null,
     street: null,
-    loading: false,
+    loading: false
   };
 
-  changeName = (e) => {
+  changeName = e => {
     this.setState({ name: e.target.value });
   };
 
-  changeStreet = (e) => {
+  changeStreet = e => {
     this.setState({ street: e.target.value });
   };
 
-  changeCity = (e) => {
+  changeCity = e => {
     this.setState({ city: e.target.value });
   };
 
@@ -33,17 +33,17 @@ class ContactData extends React.Component {
       hayag: {
         name: this.state.name,
         city: this.state.city,
-        street: this.state.street,
-      },
+        street: this.state.street
+      }
     };
 
     this.setState({ loading: true });
     axios
       .post("/orders.json", order)
-      .then((response) => {
+      .then(response => {
         console.log("order amjilttai");
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("order amjltgui: " + error);
       })
       .finally(() => {
@@ -90,10 +90,12 @@ class ContactData extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
+
+const mapStateToProps = state => {
   return {
-    price: state.totalPrice,
-    ingredients: state.ingredients,
+    price: state.burgerReducer.totalPrice,
+    ingredients: state.burgerReducer.ingredients
   };
 };
+
 export default connect(mapStateToProps)(withRouter(ContactData));

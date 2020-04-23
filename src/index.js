@@ -5,25 +5,30 @@ import App from "./pages/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import { Provider } from "react-redux";
+
 import burgerReducer from "./redux/reducer/burgerReducer";
-const loggerMiddleware = (store) => {
-  return (next) => {
-    return (action) => {
-      console.log("MyLoggerMiddleWare: Dispatching:", action);
-      console.log("MyLoggerMiddleWare: State Before", store.getState());
+import orderReducer from "./redux/reducer/orderReducer";
+
+const loggerMiddlaware = store => {
+  return next => {
+    return action => {
+      console.log("MyLoggerMiddleware: Dispatching ==> ", action);
+      console.log("MyLoggerMiddleware: State BEFORE : ", store.getState());
       const result = next(action);
-      console.log("MyLoggerMiddleWare: State After", store.getState());
+      console.log("MyLoggerMiddleware: State AFTER : ", store.getState());
       return result;
     };
   };
 };
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //
-const store = createStore(
+
+const reducers = combineReducers({
   burgerReducer,
-  composeEnhancers(applyMiddleware(loggerMiddleware))
-);
+  orderReducer
+});
+
+const store = createStore(reducers, applyMiddleware(loggerMiddlaware));
 
 ReactDOM.render(
   <Provider store={store}>

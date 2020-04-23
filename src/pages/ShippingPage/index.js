@@ -22,10 +22,10 @@ class ShippingPage extends React.Component {
           <strong>Таны захиалга амттай байх болно гэж найдаж байна...</strong>
         </p>
         <p style={{ fontSize: "24px" }}>
-          <strong>Дүн : {this.props.price}₮</strong>
+          <strong>Дүнddd : {this.props.price}₮</strong>
         </p>
 
-        <Burger orts={this.props.ingredients} />
+        <Burger />
 
         <Button
           daragdsan={this.cancelOrder}
@@ -40,15 +40,17 @@ class ShippingPage extends React.Component {
         />
 
         <Route path="/ship/contact">
-          <ContactData price={this.props.price} />
+          <ContactData />
         </Route>
       </div>
     );
   }
 }
-const mapStateToProps = (state) => {
+
+const mapStateToProps = state => {
   return {
-    price: state.totalPrice,
+    price: state.burgerReducer.totalPrice
   };
 };
+
 export default connect(mapStateToProps)(ShippingPage);

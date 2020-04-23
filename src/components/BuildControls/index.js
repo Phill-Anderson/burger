@@ -4,7 +4,7 @@ import * as actions from "../../redux/actions/burgerActions";
 import BuildControl from "../BuildControl";
 import css from "./style.module.css";
 
-const BuildControls = (props) => {
+const BuildControls = props => {
   const disabledIngredients = { ...props.burgeriinOrts };
 
   for (let key in disabledIngredients) {
@@ -17,7 +17,7 @@ const BuildControls = (props) => {
         Бургерийн үнэ : <strong>{props.price}</strong>
       </p>
 
-      {Object.keys(props.ingredientNames).map((el) => (
+      {Object.keys(props.ingredientNames).map(el => (
         <BuildControl
           key={el}
           ortsHasah={props.ortsHasah}
@@ -39,19 +39,19 @@ const BuildControls = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    burgeriinOrts: state.ingredients,
-    price: state.totalPrice,
-    purchasing: state.purchasing,
-    ingredientNames: state.ingredientNames,
+    burgeriinOrts: state.burgerReducer.ingredients,
+    price: state.burgerReducer.totalPrice,
+    purchasing: state.burgerReducer.purchasing,
+    ingredientNames: state.burgerReducer.ingredientNames
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    ortsNemeh: (ortsNer) => dispatch(actions.addIngredient(ortsNer)),
-    ortsHasah: (ortsNer) => dispatch(actions.removeIngredient(ortsNer)),
+    ortsNemeh: ortsNer => dispatch(actions.addIngredient(ortsNer)),
+    ortsHasah: ortsNer => dispatch(actions.removeIngredient(ortsNer))
   };
 };
 

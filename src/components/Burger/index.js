@@ -5,12 +5,12 @@ import css from "./style.module.css";
 
 import { withRouter } from "react-router-dom";
 
-const Burger = (props) => {
+const Burger = props => {
   //{bacon: 2, cheese: 2, meat: 1, salad: 1}
   const items = Object.entries(props.orts);
 
   let content = [];
-  items.map((el) => {
+  items.map(el => {
     for (let i = 0; i < el[1]; i++)
       content.push(<BurgerIngredient key={`${el[0]}${i + 1}`} type={el[0]} />);
   });
@@ -18,7 +18,6 @@ const Burger = (props) => {
   if (content.length === 0)
     content = <p>Хачиртай талхныхаа орцыг сонгоно уу...</p>;
 
-  console.log(props);
   return (
     <div className={css.Burger}>
       <BurgerIngredient type="bread-top" />
@@ -27,7 +26,11 @@ const Burger = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => {
-  return { orts: state.ingredients };
+
+const mapStateToProps = state => {
+  return {
+    orts: state.burgerReducer.ingredients
+  };
 };
+
 export default connect(mapStateToProps)(withRouter(Burger));

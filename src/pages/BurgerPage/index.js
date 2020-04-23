@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
+import axios from "../../axios-orders";
 import Spinner from "../../components/General/Spinner";
+import * as actions from "../../redux/actions/burgerActions";
 
 class BurgerPage extends Component {
   state = {
-    confirmOrder: false,
+    confirmOrder: false
   };
 
   continueOrder = () => {
@@ -35,14 +38,12 @@ class BurgerPage extends Component {
             <OrderSummary
               onCancel={this.closeConfirmModal}
               onContinue={this.continueOrder}
-              price={this.props.niitUne}
-              ingredientsNames={this.props.ingredientNames}
-              ingredients={this.props.burgeriinOrts}
             />
           )}
         </Modal>
 
         <Burger />
+
         <BuildControls
           showConfirmModal={this.showConfirmModal}
           ortsHasah={this.props.burgereesOrtsHas}
