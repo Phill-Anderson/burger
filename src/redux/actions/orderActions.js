@@ -1,44 +1,44 @@
 import axios from "../../axios-orders";
 
-export const loadOrders = () => {
-  return function(dispatch) {
+export const loadOrders = (userId) => {
+  return function (dispatch) {
     // Захиалгыг татаж эхлэлээ гэдгийг мэдэгдэнэ.
     // Энийг хүлээж аваад Spinner ажиллаж эхлэнэ.
     dispatch(loadOrdersStart());
 
     axios
-      .get("/orders.json")
-      .then(response => {
+      .get(`/orders.json?orderBy="userId"&equalTo="${userId}"`)
+      .then((response) => {
         const loadedOrders = Object.entries(response.data).reverse();
         dispatch(loadOrdersSuccess(loadedOrders));
       })
-      .catch(err => dispatch(loadOrdersError(err)));
+      .catch((err) => dispatch(loadOrdersError(err)));
   };
 };
 
 export const loadOrdersStart = () => {
   return {
-    type: "LOAD_ORDERS_START"
+    type: "LOAD_ORDERS_START",
   };
 };
 
-export const loadOrdersSuccess = loadedOrders => {
+export const loadOrdersSuccess = (loadedOrders) => {
   return {
     type: "LOAD_ORDERS_SUCCESS",
-    orders: loadedOrders
+    orders: loadedOrders,
   };
 };
 
-export const loadOrdersError = error => {
+export const loadOrdersError = (error) => {
   return {
     type: "LOAD_ORDERS_ERROR",
-    error
+    error,
   };
 };
 
 // Захиалгыг хадгалах
-export const saveOrder = newOrder => {
-  return function(dispatch) {
+export const saveOrder = (newOrder) => {
+  return function (dispatch) {
     // Spinner ergelduulne
     dispatch(saveOrderStart());
 
@@ -46,10 +46,10 @@ export const saveOrder = newOrder => {
 
     axios
       .post("/orders.json", newOrder)
-      .then(response => {
+      .then((response) => {
         dispatch(saveOrderSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(saveOrderError(error));
       });
   };
@@ -57,19 +57,19 @@ export const saveOrder = newOrder => {
 
 export const saveOrderStart = () => {
   return {
-    type: "SAVE_ORDER_START"
+    type: "SAVE_ORDER_START",
   };
 };
 
 export const saveOrderSuccess = () => {
   return {
-    type: "SAVE_ORDER_SUCCESS"
+    type: "SAVE_ORDER_SUCCESS",
   };
 };
 
-export const saveOrderError = error => {
+export const saveOrderError = (error) => {
   return {
     type: "SAVE_ORDER_ERROR",
-    errorMessage: error
+    errorMessage: error,
   };
 };

@@ -6,12 +6,14 @@ import MenuItem from "../MenuItem";
 const Menu = (props) => (
   <div>
     <ul className={css.Menu}>
-      <MenuItem exact link="/">
-        ШИНЭ ЗАХИАЛГА
-      </MenuItem>
-      <MenuItem link="/orders">ЗАХИАЛГАНУУД</MenuItem>
       {props.userId ? (
-        <MenuItem link="/logout">ГАРАХ</MenuItem>
+        <Fragment>
+          <MenuItem exact link="/">
+            ШИНЭ ЗАХИАЛГА
+          </MenuItem>
+          <MenuItem link="/orders">ЗАХИАЛГАНУУД</MenuItem>
+          <MenuItem link="/logout">ГАРАХ</MenuItem>
+        </Fragment>
       ) : (
         // нэг container-т оруулахын тулд ашигладаг
         <Fragment>
