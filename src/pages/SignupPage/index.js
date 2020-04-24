@@ -36,7 +36,7 @@ class Signup extends Component {
   render() {
     return (
       <div className={css.Signup}>
-        {this.props.userId && <Redirect to="/orders" />}
+        {this.props.userId && <Redirect to="/" />}
         <h1>Бүртгэлийн форм</h1>
         <div>Та өөрийн мэдээллээ оруулна уу</div>
         <input
