@@ -10,10 +10,10 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import burgerReducer from "./redux/reducer/burgerReducer";
 import orderReducer from "./redux/reducer/orderReducer";
-
-const loggerMiddlaware = store => {
-  return next => {
-    return action => {
+import signupReducer from "./redux/reducer/signupReducer";
+const loggerMiddlaware = (store) => {
+  return (next) => {
+    return (action) => {
       console.log("MyLoggerMiddleware: Dispatching ==> ", action);
       console.log("MyLoggerMiddleware: State BEFORE : ", store.getState());
       const result = next(action);
@@ -27,7 +27,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reducers = combineReducers({
   burgerReducer,
-  orderReducer
+  orderReducer,
+  signupReducer,
 });
 
 const middlewares = [loggerMiddlaware, thunk];

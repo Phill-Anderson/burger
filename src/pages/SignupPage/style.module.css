@@ -1,4 +1,4 @@
-.Login {
+.Signup {
   width: 100%;
   border: 1px solid #eee;
   box-sizing: border-box;
@@ -6,7 +6,7 @@
   padding: 10px;
   text-align: center;
 }
-.Login input {
+.Signup input {
   display: block;
   font-size: 18px;
   padding: 5px;

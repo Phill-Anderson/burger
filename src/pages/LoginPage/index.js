@@ -30,7 +30,7 @@ class Login extends Component {
           type="password"
           placeholder="Нууц үг"
         />
-        <Button text="Логин" btnType="Success" daragdsan={this.login} />
+        <Button text="ЛОГИН" btnType="Success" daragdsan={this.login} />
       </div>
     );
   }
