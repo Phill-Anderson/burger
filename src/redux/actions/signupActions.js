@@ -43,3 +43,8 @@ export const signupUserError = (error) => {
     error,
   };
 };
+export const logout = () => {
+  return {
+    type: "LOGOUT",
+  };
+};
