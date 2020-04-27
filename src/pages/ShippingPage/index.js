@@ -22,7 +22,7 @@ class ShippingPage extends React.Component {
           <strong>Таны захиалга амттай байх болно гэж найдаж байна...</strong>
         </p>
         <p style={{ fontSize: "24px" }}>
-          <strong>Дүнddd : {this.props.price}₮</strong>
+          <strong>Дүн : {this.props.price}₮</strong>
         </p>
 
         <Burger />
@@ -47,9 +47,9 @@ class ShippingPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    price: state.burgerReducer.totalPrice
+    price: state.burgerReducer.totalPrice,
   };
 };
 

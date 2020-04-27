@@ -4,13 +4,11 @@ import Burger from "../../components/Burger";
 import BuildControls from "../../components/BuildControls";
 import Modal from "../../components/General/Modal";
 import OrderSummary from "../../components/OrderSummary";
-import axios from "../../axios-orders";
 import Spinner from "../../components/General/Spinner";
-import * as actions from "../../redux/actions/burgerActions";
 
 class BurgerPage extends Component {
   state = {
-    confirmOrder: false
+    confirmOrder: false,
   };
 
   continueOrder = () => {

@@ -1,58 +1,58 @@
 import axios from "../../axios-orders";
 
-export const loadOrders = (userId) => {
-  return function (dispatch, getState) {
+export const loadOrders = userId => {
+  return function(dispatch, getState) {
     // Захиалгыг татаж эхлэлээ гэдгийг мэдэгдэнэ.
     // Энийг хүлээж аваад Spinner ажиллаж эхлэнэ.
     dispatch(loadOrdersStart());
-    // state -ийг 2 янзаар авч болох ба нэгдүгээр арга нь компонэнтээс нь , хоёрдугаар арга нь газар дээр нь шууд дуудах буюу тэр нь доорх хэлбэртэй байна
+
     const token = getState().signupReducer.token;
-    // дээрх шиг userId - ийг газар дээрээс нь дуудан авч болно
-    //const userId = getState().signupReducer.userId;
+
     axios
-      .get(`/orders.json?&auth=${token}&orderBy="userId"&equalTo="${userId}"`)
-      .then((response) => {
+      .get(`orders.json?&auth=${token}&orderBy="userId"&equalTo="${userId}"`)
+      .then(response => {
         const loadedOrders = Object.entries(response.data).reverse();
         dispatch(loadOrdersSuccess(loadedOrders));
       })
-      .catch((err) => dispatch(loadOrdersError(err)));
+      .catch(err => dispatch(loadOrdersError(err)));
   };
 };
 
 export const loadOrdersStart = () => {
   return {
-    type: "LOAD_ORDERS_START",
+    type: "LOAD_ORDERS_START"
   };
 };
 
-export const loadOrdersSuccess = (loadedOrders) => {
+export const loadOrdersSuccess = loadedOrders => {
   return {
     type: "LOAD_ORDERS_SUCCESS",
-    orders: loadedOrders,
+    orders: loadedOrders
   };
 };
 
-export const loadOrdersError = (error) => {
+export const loadOrdersError = error => {
   return {
     type: "LOAD_ORDERS_ERROR",
-    error,
+    error
   };
 };
 
 // Захиалгыг хадгалах
-export const saveOrder = (newOrder) => {
-  return function (dispatch, getState) {
+export const saveOrder = newOrder => {
+  return function(dispatch, getState) {
     // Spinner ergelduulne
     dispatch(saveOrderStart());
-    const token = getState().signupReducer.token;
-    // Firebase ruu hadgalna
 
+    const token = getState().signupReducer.token;
+
+    // Firebase ruu hadgalna
     axios
       .post(`/orders.json?auth=${token}`, newOrder)
-      .then((response) => {
+      .then(response => {
         dispatch(saveOrderSuccess());
       })
-      .catch((error) => {
+      .catch(error => {
         dispatch(saveOrderError(error));
       });
   };
@@ -60,19 +60,19 @@ export const saveOrder = (newOrder) => {
 
 export const saveOrderStart = () => {
   return {
-    type: "SAVE_ORDER_START",
+    type: "SAVE_ORDER_START"
   };
 };
 
 export const saveOrderSuccess = () => {
   return {
-    type: "SAVE_ORDER_SUCCESS",
+    type: "SAVE_ORDER_SUCCESS"
   };
 };
 
-export const saveOrderError = (error) => {
+export const saveOrderError = error => {
   return {
     type: "SAVE_ORDER_ERROR",
-    errorMessage: error,
+    errorMessage: error
   };
 };
