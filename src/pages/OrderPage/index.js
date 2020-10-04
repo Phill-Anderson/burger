@@ -8,8 +8,6 @@ import * as actions from "../../redux/actions/orderActions";
 class OrderPage extends React.Component {
   componentDidMount() {
     this.props.loadOrders(this.props.userId);
-    // this.setState({ loading: true });
-    // axios
   }
 
   render() {
@@ -19,24 +17,24 @@ class OrderPage extends React.Component {
         {this.props.loading ? (
           <Spinner />
         ) : (
-          this.props.orders.map((el) => <Order key={el[0]} order={el[1]} />)
+          this.props.orders.map(el => <Order key={el[0]} order={el[1]} />)
         )}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     orders: state.orderReducer.orders,
     loading: state.orderReducer.loading,
-    userId: state.signupReducer.userId,
+    userId: state.signupReducer.userId
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loadOrders: (userId) => dispatch(actions.loadOrders(userId)),
+    loadOrders: userId => dispatch(actions.loadOrders(userId))
   };
 };
 

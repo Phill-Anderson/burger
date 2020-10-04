@@ -32,7 +32,7 @@ const reducers = combineReducers({
   signupReducer
 });
 
-const middlewares = [loggerMiddlaware, thunk];
+const middlewares = [thunk];
 
 const store = createStore(
   reducers,

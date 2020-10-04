@@ -11,18 +11,18 @@ class ContactData extends React.Component {
   state = {
     name: null,
     city: null,
-    street: null,
+    street: null
   };
 
-  changeName = (e) => {
+  changeName = e => {
     this.setState({ name: e.target.value });
   };
 
-  changeStreet = (e) => {
+  changeStreet = e => {
     this.setState({ street: e.target.value });
   };
 
-  changeCity = (e) => {
+  changeCity = e => {
     this.setState({ city: e.target.value });
   };
 
@@ -43,8 +43,8 @@ class ContactData extends React.Component {
       hayag: {
         name: this.state.name,
         city: this.state.city,
-        street: this.state.street,
-      },
+        street: this.state.street
+      }
     };
 
     this.props.saveOrderAction(newOrder);
@@ -93,18 +93,18 @@ class ContactData extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     price: state.burgerReducer.totalPrice,
     ingredients: state.burgerReducer.ingredients,
     newOrderStatus: state.orderReducer.newOrder,
-    userId: state.signupReducer.userId,
+    userId: state.signupReducer.userId
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    saveOrderAction: (newOrder) => dispatch(actions.saveOrder(newOrder)),
+    saveOrderAction: newOrder => dispatch(actions.saveOrder(newOrder))
   };
 };
 

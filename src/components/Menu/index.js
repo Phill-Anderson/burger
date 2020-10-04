@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import css from "./style.module.css";
 import MenuItem from "../MenuItem";
 
-const Menu = (props) => (
+const Menu = props => (
   <div>
     <ul className={css.Menu}>
       {props.userId ? (
@@ -15,7 +15,6 @@ const Menu = (props) => (
           <MenuItem link="/logout">ГАРАХ</MenuItem>
         </Fragment>
       ) : (
-        // нэг container-т оруулахын тулд ашигладаг
         <Fragment>
           <MenuItem link="/login">НЭВТРЭХ</MenuItem>
           <MenuItem link="/signup">БҮРТГҮҮЛЭХ</MenuItem>
@@ -24,9 +23,9 @@ const Menu = (props) => (
     </ul>
   </div>
 );
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    userId: state.signupReducer.userId,
+    userId: state.signupReducer.userId
   };
 };
 export default connect(mapStateToProps)(Menu);

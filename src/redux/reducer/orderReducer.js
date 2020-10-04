@@ -1,3 +1,5 @@
+import { bindActionCreators } from "redux";
+
 const initialState = {
   // Load order
   orders: [],
@@ -8,8 +10,8 @@ const initialState = {
   newOrder: {
     saving: false,
     finished: false,
-    error: null,
-  },
+    error: null
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,21 +19,21 @@ const reducer = (state = initialState, action) => {
     case "LOAD_ORDERS_START":
       return {
         ...state,
-        loading: true,
+        loading: true
       };
 
     case "LOAD_ORDERS_SUCCESS":
       return {
         ...state,
         loading: false,
-        orders: action.orders,
+        orders: action.orders
       };
 
     case "LOAD_ORDERS_ERROR":
       return {
         ...state,
         loading: false,
-        error: action.error,
+        error: action.error
       };
 
     case "SAVE_ORDER_START":
@@ -39,8 +41,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         newOrder: {
           ...state.newOrder,
-          saving: true,
-        },
+          saving: true
+        }
       };
 
     case "SAVE_ORDER_SUCCESS":
@@ -50,8 +52,8 @@ const reducer = (state = initialState, action) => {
           ...state.newOrder,
           saving: false,
           finished: true,
-          error: null,
-        },
+          error: null
+        }
       };
 
     case "SAVE_ORDER_ERROR":
@@ -61,8 +63,8 @@ const reducer = (state = initialState, action) => {
           ...state.newOrder,
           saving: false,
           finished: true,
-          error: action.errorMessage,
-        },
+          error: action.errorMessage
+        }
       };
 
     default:

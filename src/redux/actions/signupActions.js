@@ -1,21 +1,21 @@
 import axios from "axios";
 import { loginUserSuccess } from "./loginActions";
 export const signupUser = (email, password) => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(signupUserStart());
 
     const data = {
       email,
       password,
-      returnSecureToken: true,
+      returnSecureToken: true
     };
 
     axios
       .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDYpNmhmmGTb-3Ignm4KsicSBnEPmMP-hU",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCEmDZW6k2XJlQritKoYeJG14ExYa1rRSM",
         data
       )
-      .then((result) => {
+      .then(result => {
         // LocalStorage ruu hadgalna
         const token = result.data.idToken;
         const userId = result.data.localId;
@@ -25,7 +25,7 @@ export const signupUser = (email, password) => {
 
         dispatch(signupUserSuccess(token, userId));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(signupUserError(err));
       });
   };
@@ -33,7 +33,7 @@ export const signupUser = (email, password) => {
 
 export const signupUserStart = () => {
   return {
-    type: "SIGNUP_USER_START",
+    type: "SIGNUP_USER_START"
   };
 };
 
@@ -41,14 +41,14 @@ export const signupUserSuccess = (token, userId) => {
   return {
     type: "SIGNUP_USER_SUCCESS",
     token,
-    userId,
+    userId
   };
 };
 
-export const signupUserError = (error) => {
+export const signupUserError = error => {
   return {
     type: "SIGNUP_USER_ERROR",
-    error,
+    error
   };
 };
 
@@ -58,17 +58,17 @@ export const logout = () => {
   localStorage.removeItem("expireDate");
   localStorage.removeItem("refreshToken");
   return {
-    type: "LOGOUT",
+    type: "LOGOUT"
   };
 };
 
-export const autoLogoutAfterMillisec = (ms) => {
-  return function (dispatch) {
-    // token refresh hiih code
+export const autoLogoutAfterMillisec = ms => {
+  return function(dispatch) {
+    // token shinechleh code
     // axios
     //   .post(
     //     "https://securetoken.googleapis.com/v1/token?key=AIzaSyCEmDZW6k2XJlQritKoYeJG14ExYa1rRSM",
-    //     {
+    //     {d
     //       grant_type: "refresh_token",
     //       refresh_token: localStorage.get("refresh_token")
     //     }

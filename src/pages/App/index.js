@@ -37,6 +37,7 @@ class App extends Component {
       if (expireDate > new Date()) {
         // Hugatsaa n duusaaagui token baina, avtomat login hiine
         this.props.autoLogin(token, userId);
+
         // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
         // Ter hugatsaanii daraa avtomataar logout hiine
         this.props.autoLogoutAfterMillisec(

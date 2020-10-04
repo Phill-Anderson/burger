@@ -2,21 +2,21 @@ import axios from "axios";
 import * as actions from "./signupActions";
 
 export const loginUser = (email, password) => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(loginUserStart());
 
     const data = {
       email,
       password,
-      returnSecureToken: true,
+      returnSecureToken: true
     };
 
     axios
       .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDYpNmhmmGTb-3Ignm4KsicSBnEPmMP-hU",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCEmDZW6k2XJlQritKoYeJG14ExYa1rRSM",
         data
       )
-      .then((result) => {
+      .then(result => {
         // LocalStorage ruu hadgalna
         const token = result.data.idToken;
         const userId = result.data.localId;
@@ -32,7 +32,7 @@ export const loginUser = (email, password) => {
         dispatch(loginUserSuccess(token, userId));
         dispatch(actions.autoLogoutAfterMillisec(expiresIn * 1000));
       })
-      .catch((err) => {
+      .catch(err => {
         dispatch(loginUserError(err));
       });
   };
@@ -40,7 +40,7 @@ export const loginUser = (email, password) => {
 
 export const loginUserStart = () => {
   return {
-    type: "LOGIN_USER_START",
+    type: "LOGIN_USER_START"
   };
 };
 
@@ -48,13 +48,13 @@ export const loginUserSuccess = (token, userId) => {
   return {
     type: "LOGIN_USER_SUCCESS",
     token,
-    userId,
+    userId
   };
 };
 
-export const loginUserError = (error) => {
+export const loginUserError = error => {
   return {
     type: "LOGIN_USER_ERROR",
-    error,
+    error
   };
 };
