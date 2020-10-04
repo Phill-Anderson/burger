@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import css from "./style.module.css";
@@ -16,18 +16,15 @@ import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
 import * as signupActions from "../../redux/actions/signupActions";
 
-class App extends Component {
-  state = {
-    showSidebar: false
+const App = props => {
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  const toggleSideBar = () => {
+    setShowSidebar(prevShowSidebar => !prevShowSidebar);
+    // prevShowSidebar нь render хийгдэхээс өмнөх showSidebar state - ийн утгыг заана
   };
 
-  toggleSideBar = () => {
-    this.setState(prevState => {
-      return { showSidebar: !prevState.showSidebar };
-    });
-  };
-
-  componentDidMount = () => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     const expireDate = new Date(localStorage.getItem("expireDate"));
@@ -36,50 +33,45 @@ class App extends Component {
     if (token) {
       if (expireDate > new Date()) {
         // Hugatsaa n duusaaagui token baina, avtomat login hiine
-        this.props.autoLogin(token, userId);
+        props.autoLogin(token, userId);
 
         // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
         // Ter hugatsaanii daraa avtomataar logout hiine
-        this.props.autoLogoutAfterMillisec(
+        props.autoLogoutAfterMillisec(
           expireDate.getTime() - new Date().getTime()
         );
       } else {
         // Token hugatsaa n duussan bainaa, logout hiine
-        this.props.logout();
+        props.logout();
       }
     }
-  };
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <Toolbar toggleSideBar={this.toggleSideBar} />
+  return (
+    <div>
+      <Toolbar toggleSideBar={toggleSideBar} />
 
-        <SideBar
-          showSidebar={this.state.showSidebar}
-          toggleSideBar={this.toggleSideBar}
-        />
+      <SideBar showSidebar={showSidebar} toggleSideBar={toggleSideBar} />
 
-        <main className={css.Content}>
-          {this.props.userId ? (
-            <Switch>
-              <Route path="/logout" component={Logout} />
-              <Route path="/orders" component={OrderPage} />
-              <Route path="/ship" component={ShippingPage} />
-              <Route path="/" component={BurgerPage} />
-            </Switch>
-          ) : (
+      <main className={css.Content}>
+        {props.userId ? (
+          <Switch>
+            <Route path="/logout" component={Logout} />
+            <Route path="/orders" component={OrderPage} />
+            <Route path="/ship" component={ShippingPage} />
+            <Route path="/" component={BurgerPage} />
+          </Switch>
+        ) : (
             <Switch>
               <Route path="/signup" component={SignupPage} />
               <Route path="/login" component={LoginPage} />
               <Redirect to="/login" />
             </Switch>
           )}
-        </main>
-      </div>
-    );
-  }
-}
+      </main>
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   return {

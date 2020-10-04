@@ -13,10 +13,17 @@ const ContactData = props => {
   const [street, setStreet] = useState();
 
   useEffect(() => {
+    console.log("contact data effect");
     if (props.newOrderStatus.finished && !props.newOrderStatus.error) {
       props.history.replace("/orders");
     }
-  });
+
+    return () => {
+      // Цэвэрлэгч функц : Захиалгыг буцаагаад хоосолно. Дараачийн захиалгад бэлтгэнэ гэсэн үг.
+      console.log("order clearing...");
+      props.clearOrder();
+    };
+  }, [props.newOrderStatus.finished]);
 
   const changeName = e => {
     setName(e.target.value);
@@ -92,7 +99,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveOrderAction: newOrder => dispatch(actions.saveOrder(newOrder))
+    saveOrderAction: newOrder => dispatch(actions.saveOrder(newOrder)),
+    clearOrder: () => dispatch(actions.clearOrder())
   };
 };
 
