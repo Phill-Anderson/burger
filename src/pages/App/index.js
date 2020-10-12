@@ -11,6 +11,7 @@ import LoginPage from "../LoginPage";
 import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
 import * as signupActions from "../../redux/actions/signupActions";
+import BurgerContext from "../../context/BurgerContext";
 
 const BurgerPage = React.lazy(() => {
   return import("../BurgerPage");
@@ -65,9 +66,14 @@ const App = props => {
           {props.userId ? (
             <Switch>
               <Route path="/logout" component={Logout} />
-              <Route path="/orders" component={OrderPage} />
+
               <Route path="/ship" component={ShippingPage} />
-              <Route path="/" component={BurgerPage} />
+              <Route path="/">
+                <BurgerContext.Provider value={"" + showSidebar}>
+                  <Route path="/orders" component={OrderPage} />
+                  <BurgerPage />
+                </BurgerContext.Provider>
+              </Route>
             </Switch>
           ) : (
             <Switch>
