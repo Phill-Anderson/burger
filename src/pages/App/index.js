@@ -11,7 +11,7 @@ import LoginPage from "../LoginPage";
 import Logout from "../../components/Logout";
 import * as actions from "../../redux/actions/loginActions";
 import * as signupActions from "../../redux/actions/signupActions";
-import BurgerContext from "../../context/BurgerContext";
+import { BurgerStore } from "../../context/BurgerContext";
 
 const BurgerPage = React.lazy(() => {
   return import("../BurgerPage");
@@ -25,11 +25,11 @@ const SignupPage = React.lazy(() => {
   return import("../SignupPage");
 });
 
-const App = props => {
+const App = (props) => {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const toggleSideBar = () => {
-    setShowSidebar(prevShowSidebar => !prevShowSidebar);
+    setShowSidebar((prevShowSidebar) => !prevShowSidebar);
   };
 
   useEffect(() => {
@@ -66,14 +66,12 @@ const App = props => {
           {props.userId ? (
             <Switch>
               <Route path="/logout" component={Logout} />
+              <Route path="/orders" component={OrderPage} />
 
-              <Route path="/ship" component={ShippingPage} />
-              <Route path="/">
-                <BurgerContext.Provider value={"" + showSidebar}>
-                  <Route path="/orders" component={OrderPage} />
-                  <BurgerPage />
-                </BurgerContext.Provider>
-              </Route>
+              <BurgerStore>
+                <Route path="/ship" component={ShippingPage} />
+                <Route path="/" component={BurgerPage} />
+              </BurgerStore>
             </Switch>
           ) : (
             <Switch>
@@ -88,19 +86,19 @@ const App = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    userId: state.signupReducer.userId
+    userId: state.signupReducer.userId,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     autoLogin: (token, userId) =>
       dispatch(actions.loginUserSuccess(token, userId)),
     logout: () => dispatch(signupActions.logout()),
     autoLogoutAfterMillisec: () =>
-      dispatch(signupActions.autoLogoutAfterMillisec())
+      dispatch(signupActions.autoLogoutAfterMillisec()),
   };
 };
 

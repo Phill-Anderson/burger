@@ -1,33 +1,27 @@
 import React, { useContext } from "react";
-import { connect } from "react-redux";
-import * as actions from "../../redux/actions/burgerActions";
 import css from "./style.module.css";
 import BurgerContext from "../../context/BurgerContext";
 
-const BuildControl = props => {
-  const appData = useContext(BurgerContext);
+const BuildControl = (props) => {
+  const burgerContext = useContext(BurgerContext);
   return (
     <div className={css.BuildControl}>
       <div className={css.Label}>{props.orts}</div>
       <button
         disabled={props.disabled[props.type]}
-        onClick={() => props.ortsHasah(props.type)}
+        onClick={() => burgerContext.removeIngredient(props.type)}
         className={css.Less}
       >
         Хасах
       </button>
-      <button onClick={() => props.ortsNemeh(props.type)} className={css.More}>
-        Нэмэх {appData}
+      <button
+        onClick={() => burgerContext.addIngredient(props.type)}
+        className={css.More}
+      >
+        Нэмэх
       </button>
     </div>
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    ortsNemeh: ortsNer => dispatch(actions.addIngredient(ortsNer)),
-    ortsHasah: ortsNer => dispatch(actions.removeIngredient(ortsNer))
-  };
-};
-
-export default connect(null, mapDispatchToProps)(BuildControl);
+export default BuildControl;
