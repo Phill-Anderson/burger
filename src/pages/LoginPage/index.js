@@ -6,25 +6,25 @@ import * as actions from "../../redux/actions/loginActions";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
 
-const Login = props => {
+const Login = (props) => {
   const [form, setForm] = useState({
     email: "",
-    password: "12"
+    password: "12",
   });
 
-  const changeEmail = e => {
+  const changeEmail = (e) => {
     const newEmail = e.target.value;
-    setForm(formBefore => ({
+    setForm((formBefore) => ({
       email: newEmail,
-      password: formBefore.password
+      password: formBefore.password,
     }));
   };
 
-  const changePassword = e => {
+  const changePassword = (e) => {
     const newPassword = e.target.value;
-    setForm(formBefore => ({
+    setForm((formBefore) => ({
       email: formBefore.email,
-      password: newPassword
+      password: newPassword,
     }));
   };
 
@@ -48,18 +48,18 @@ const Login = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     logginIn: state.signupReducer.logginIn,
     firebaseError: state.signupReducer.firebaseError,
     firebaseErrorCode: state.signupReducer.firebaseErrorCode,
-    userId: state.signupReducer.userId
+    userId: state.signupReducer.userId,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, password) => dispatch(actions.loginUser(email, password))
+    login: (email, password) => dispatch(actions.loginUser(email, password)),
   };
 };
 
