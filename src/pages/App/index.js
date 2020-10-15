@@ -1,16 +1,12 @@
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
 import css from "./style.module.css";
 import Toolbar from "../../components/Toolbar";
 import SideBar from "../../components/SideBar";
 import { Route, Switch } from "react-router-dom";
 import ShippingPage from "../ShippingPage";
-import Burger from "../../components/Burger";
 import LoginPage from "../LoginPage";
 import Logout from "../../components/Logout";
-import * as actions from "../../redux/actions/loginActions";
-import * as signupActions from "../../redux/actions/signupActions";
 import { BurgerStore } from "../../context/BurgerContext";
 import { OrderStore } from "../../context/OrdersContext";
 import UserContext from "../../context/UserContext";
