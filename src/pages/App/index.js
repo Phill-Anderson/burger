@@ -31,28 +31,27 @@ const App = (props) => {
     setShowSidebar((prevShowSidebar) => !prevShowSidebar);
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const userId = localStorage.getItem("userId");
-  //   const expireDate = new Date(localStorage.getItem("expireDate"));
-  //   const refreshToken = localStorage.getItem("refreshToken");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const expireDate = new Date(localStorage.getItem("expireDate"));
+    const refreshToken = localStorage.getItem("refreshToken");
 
-  //   if (token) {
-  //     if (expireDate > new Date()) {
-  //       // Hugatsaa n duusaaagui token baina, avtomat login hiine
-  //       props.autoLogin(token, userId);
-
-  //       // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
-  //       // Ter hugatsaanii daraa avtomataar logout hiine
-  //       props.autoLogoutAfterMillisec(
-  //         expireDate.getTime() - new Date().getTime()
-  //       );
-  //     } else {
-  //       // Token hugatsaa n duussan bainaa, logout hiine
-  //       props.logout();
-  //     }
-  //   }
-  // }, []);
+    if (token) {
+      if (expireDate > new Date()) {
+        // Hugatsaa n duusaaagui token baina, avtomat login hiine
+        userCtx.loginUserSucces(token, userId, expireDate, refreshToken);
+        // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
+        // Ter hugatsaanii daraa avtomataar logout hiine
+        // props.autoLogoutAfterMillisec(
+        //   expireDate.getTime() - new Date().getTime()
+        // );
+      } else {
+        // Token hugatsaa n duussan bainaa, logout hiine
+        userCtx.logout();
+      }
+    }
+  }, []);
 
   return (
     <div>

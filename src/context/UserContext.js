@@ -16,6 +16,23 @@ const initialState = {
 export const UserStore = (props) => {
   const [state, setState] = useState(initialState);
 
+  const loginUserSucces = (token, userId, expireDate, refreshToken) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("expireDate", expireDate);
+    localStorage.setItem("refreshToken", refreshToken);
+
+    setState({
+      ...state,
+      logginIn: false,
+      error: null,
+      errorCode: null,
+      token,
+      userId,
+      expireDate,
+    });
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
@@ -75,26 +92,16 @@ export const UserStore = (props) => {
       )
       .then((result) => {
         // LocalStorage ruu hadgalna
+        console.log("Logged in =======>", result.data);
+        console.log(new Date());
+        // console.log(new Date(new Date().getTime() + expiresIn * 1000));
         const token = result.data.idToken;
         const userId = result.data.localId;
         const expiresIn = result.data.expiresIn;
         const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
         const refreshToken = result.data.refreshToken;
 
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("expireDate", expireDate);
-        localStorage.setItem("refreshToken", refreshToken);
-
-        setState({
-          ...state,
-          logginIn: false,
-          error: null,
-          errorCode: null,
-          token,
-          userId,
-          expireDate,
-        });
+        loginUserSucces(token, userId, expireDate, refreshToken);
 
         // dispatch(actions.autoLogoutAfterMillisec(expiresIn * 1000));
       })
@@ -155,7 +162,9 @@ export const UserStore = (props) => {
   };
 
   return (
-    <UserContext.Provider value={{ state, signupUser, loginUser, logout }}>
+    <UserContext.Provider
+      value={{ state, signupUser, loginUser, logout, loginUserSucces }}
+    >
       {props.children}
     </UserContext.Provider>
   );
