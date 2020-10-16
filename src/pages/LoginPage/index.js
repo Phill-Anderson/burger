@@ -4,8 +4,8 @@ import css from "./style.module.css";
 import Spinner from "../../components/General/Spinner";
 import { Redirect } from "react-router-dom";
 import UserContext from "../../context/UserContext";
-
 const Login = (props) => {
+
   const ctx = useContext(UserContext);
   const [form, setForm] = useState({
     email: "",
@@ -32,8 +32,10 @@ const Login = (props) => {
     ctx.loginUser(form.email, form.password);
   };
 
+
   return (
     <div className={css.Login}>
+      { document.cookie && <Redirect to="/" />}
       {ctx.state.userId && <Redirect to="/orders" />}
       <input onChange={changeEmail} type="text" placeholder="Имэйл хаяг" />
       <input onChange={changePassword} type="password" placeholder="Нууц үг" />

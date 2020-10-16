@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "../axios-orders";
+
+import axios from "../axios";
 
 const UserContext = React.createContext();
 
@@ -16,12 +17,9 @@ const initialState = {
 export const UserStore = (props) => {
   const [state, setState] = useState(initialState);
 
-  const loginUserSucces = (token, userId, expireDate, refreshToken) => {
+  const loginUserSucces = (token, userId) => {
     localStorage.setItem("token", token);
     localStorage.setItem("userId", userId);
-    localStorage.setItem("expireDate", expireDate);
-    localStorage.setItem("refreshToken", refreshToken);
-
     setState({
       ...state,
       logginIn: false,
@@ -29,7 +27,6 @@ export const UserStore = (props) => {
       errorCode: null,
       token,
       userId,
-      expireDate,
     });
   };
 
@@ -82,30 +79,21 @@ export const UserStore = (props) => {
 
   const loginUser = (email, password) => {
     setState({ ...state, logginIn: true });
-
     const data = {
       email,
       password,
-      returnSecureToken: true,
     };
 
     axios
-      .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCEmDZW6k2XJlQritKoYeJG14ExYa1rRSM",
-        data
-      )
+      .post("users/login", data)
       .then((result) => {
         // LocalStorage ruu hadgalna
         console.log("Logged in =======>", result.data);
-        console.log(new Date());
         // console.log(new Date(new Date().getTime() + expiresIn * 1000));
-        const token = result.data.idToken;
-        const userId = result.data.localId;
+        const token = result.data.token;
+        const userId = result.data.user._id;
         const expiresIn = result.data.expiresIn;
-        const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
-        const refreshToken = result.data.refreshToken;
-
-        loginUserSucces(token, userId, expireDate, refreshToken);
+        loginUserSucces(token, userId);
 
         // dispatch(actions.autoLogoutAfterMillisec(expiresIn * 1000));
       })

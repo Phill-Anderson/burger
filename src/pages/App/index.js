@@ -34,23 +34,20 @@ const App = (props) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-    const expireDate = new Date(localStorage.getItem("expireDate"));
-    const refreshToken = localStorage.getItem("refreshToken");
-
     if (token) {
-      if (expireDate > new Date()) {
-        // Hugatsaa n duusaaagui token baina, avtomat login hiine
-        userCtx.loginUserSucces(token, userId, expireDate, refreshToken);
-        // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
-        // Ter hugatsaanii daraa avtomataar logout hiine
-        userCtx.autoRenewTokenAfterMillisec(
-          expireDate.getTime() - new Date().getTime()
-        );
-      } else {
-        // Token hugatsaa n duussan bainaa, logout hiine
-        // userCtx.logout();
-        userCtx.autoRenewTokenAfterMillisec(3600000);
-      }
+      /*  if (expireDate > new Date()) { */
+      // Hugatsaa n duusaaagui token baina, avtomat login hiine
+      userCtx.loginUserSucces(token, userId);
+      // Token huchingui bolohod uldej baigaa hugatsaag tootsoolj
+      // Ter hugatsaanii daraa avtomataar logout hiine
+      /*  userCtx.autoRenewTokenAfterMillisec(
+         expireDate.getTime() - new Date().getTime()
+       ); */
+      /*  } else {
+         // Token hugatsaa n duussan bainaa, logout hiine
+         // userCtx.logout();
+         userCtx.autoRenewTokenAfterMillisec(3600000);
+       } */
     }
   }, []);
 
@@ -75,12 +72,12 @@ const App = (props) => {
                 <Route path="/" component={BurgerPage} />
               </Switch>
             ) : (
-              <Switch>
-                <Route path="/signup" component={SignupPage} />
-                <Route path="/login" component={LoginPage} />
-                <Redirect to="/login" />
-              </Switch>
-            )}
+                <Switch>
+                  <Route path="/signup" component={SignupPage} />
+                  <Route path="/login" component={LoginPage} />
+                  <Redirect to="/login" />
+                </Switch>
+              )}
           </Suspense>
         </BurgerStore>
       </main>

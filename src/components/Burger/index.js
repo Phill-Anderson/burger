@@ -10,10 +10,8 @@ const Burger = (props) => {
 
   return useMemo(() => {
     console.log("Burger rendered!!!!....");
-
     //{bacon: 2, cheese: 2, meat: 1, salad: 1}
     const items = Object.entries(burgerContext.burger.ingredients);
-
     let content = [];
     items.map((el) => {
       for (let i = 0; i < el[1]; i++)
