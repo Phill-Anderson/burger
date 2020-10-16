@@ -58,6 +58,8 @@ const ContactData = (props) => {
     ctx.saveBurger(newOrder, userCtx.state.token);
   };
 
+  console.log("ContactData rendered....");
+
   return (
     <div className={css.ContactData}>
       <div ref={dunRef}>
@@ -94,6 +96,8 @@ const ContactData = (props) => {
           <Button text="ИЛГЭЭХ" btnType="Success" daragdsan={saveOrder} />
         </div>
       )}
+
+      <Button text="Toggle" btnType="Success" daragdsan={ctx.toggle} />
     </div>
   );
 };
